@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeeklyParticipationTwelve</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f7f7f7; color: #202020; }
+    main { max-width: 720px; margin: 45px auto; background: white; border: 1px solid #ddd; }
+    h1 { margin: 0; padding: 14px 18px; background: #333; color: white; font-size: 24px; font-weight: normal; }
+    .content { padding: 18px; }
+    label { display: inline-block; margin: 10px 8px 10px 0; }
+    input { padding: 7px; border: 1px solid #999; border-radius: 3px; font-size: 16px; }
+    #result { margin-top: 16px; min-height: 24px; }
+    #status { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>WeeklyParticipationTwelve</h1>
+    <div class="content">
+      <p>Please enter the name of the dog breed you want to lookup.</p>
+      <form onsubmit="return false;">
+        <label for="breed">Dog Breed's name:</label>
+        <input type="text" id="breed" name="breed" onkeyup="lookUpBreed()" autocomplete="off" aria-describedby="result">
+      </form>
+      <div id="result" role="status" aria-live="polite">FOUND: <span id="status"></span></div>
+    </div>
+  </main>
+  <script>
+    let currentRequest;
+
+    function lookUpBreed() {
+      const name = document.getElementById('breed').value.trim();
+      const status = document.getElementById('status');
+
+      if (currentRequest) {
+        currentRequest.abort();
+      }
+      if (name === '') {
+        status.textContent = '';
+        return;
+      }
+
+      const request = new XMLHttpRequest();
+      currentRequest = request;
+      request.onreadystatechange = function () {
+        if (request.readyState === 4 && request === currentRequest) {
+          if (request.status === 200) {
+            status.textContent = request.responseText;
+          } else if (request.status !== 0) {
+            status.textContent = 'Could not check the breed. Please try again.';
+          }
+        }
+      };
+      request.open('GET', 'check_breed.php?breed=' + encodeURIComponent(name), true);
+      request.send();
+    }
+  </script>
+</body>
+</html>
