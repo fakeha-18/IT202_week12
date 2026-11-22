@@ -22,7 +22,7 @@ The page lets users type in a dog breed and shows suggestions while they are typ
 ## Links
 
 **GitHub Repository:**  
-https://github.com/YOUR-USERNAME/IT202_week12
+https://github.com/fakeha-18/IT202_week12/tree/main
 
 **Live Website:**  
 https://web.njit.edu/~fi53/week12/index.html
